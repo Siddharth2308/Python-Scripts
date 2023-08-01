@@ -34,7 +34,7 @@ def get_microcontroller_details():
                 'required_drivers': 'CH340 driver (Windows), no drivers required for macOS and Linux.'
             }
             microcontrollers.append(microcontroller)
-            file_path = 'test.ino.standard.hex'
+            file_path = '/test_uno.ino.standard.hex'
             upload_binary_file(microcontroller, file_path)
 
         # Check if it's an ESP32 (you can add more checks for different ESP32 boards)
@@ -47,6 +47,8 @@ def get_microcontroller_details():
                                     'CP210x driver (macOS), no drivers required for Linux.'
             }
             microcontrollers.append(microcontroller)
+            file_path = '/test_uno.ino.standard.hex'
+            upload_binary_file(microcontroller, file_path)
 
     return microcontrollers
 
@@ -55,7 +57,7 @@ def send_numeric_input(port):
         ser = serial.Serial(port, 115200)  # Open the serial port
 
         while True:
-            user_input = input("Enter a numeric value (or 'q' to quit): ")
+            user_input = input("Enter a numeric value (enter 77 to close all IO) (or 'q' to quit): ")
 
             if user_input.lower() == 'q':
                 break
@@ -65,7 +67,7 @@ def send_numeric_input(port):
                 ser.write(str(value).encode())  # Convert int to string and send it as bytes
                 print(str(value).encode())
             except ValueError:
-                print("Invalid input. Please enter a valid numeric value or 'q' to quit.")
+                print("Invalid input. Please enter a valid numeric value or 'q' to quit. enter 77 to close all IO")
 
         ser.close()
         print("Serial communication closed.")
